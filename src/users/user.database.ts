@@ -3,6 +3,8 @@ import bcrypt from "bcryptjs";
 import { v4 as random } from "uuid";
 import fs from "fs";
 
+
+
 let users: Users = loadUsers();
 
 function loadUsers(): Users {
@@ -119,3 +121,14 @@ export const remove = async (id : string) : Promise<null | void> => {
     saveUsers()
 
 }
+
+
+export const searchByName = async (name: string): Promise<UnitUser[]> => {
+    const allUsers = await findAll();
+    return allUsers.filter(user => user.username.toLowerCase().includes(name.toLowerCase()));
+};
+
+export const searchByEmail = async (partialEmail: string): Promise<UnitUser[]> => {
+    const allUsers = await findAll();
+    return allUsers.filter(user => user.email.toLowerCase().includes(partialEmail.toLowerCase()));
+};
